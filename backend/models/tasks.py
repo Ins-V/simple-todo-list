@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, Text, DateTime
+from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
 
 from config.database import Base
 
@@ -13,6 +13,7 @@ class Task(Base):
     description = Column(Text)
     created = Column(DateTime, default=datetime.now)
     updated = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+    user_id = Column(Integer, ForeignKey('users.id'), index=True)
 
     def __repr__(self):
         return f"<{self.__class__.__name__}(name={self.name})>"

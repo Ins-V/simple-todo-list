@@ -15,4 +15,4 @@ class User(Base):
     created = Column(DateTime, default=datetime.now)
 
     def __repr__(self):
-        return f"<{self.__class__.__name__}({self.name})>"
+        return f"<{self.__class__.__name__}({self.username})>"

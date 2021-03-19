@@ -19,28 +19,28 @@ class TaskService:
     def __init__(self, session: Session = Depends(get_session)):
         self.session = session
 
-    def _get_task(self, pk: int) -> Task:
-        task = self.session.query(Task).get(pk)
+    def _get_task(self, pk: int, user_id: int) -> Task:
+        task = self.session.query(Task).filter_by(id=pk, user_id=user_id).first()
 
         if not task:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
         return task
 
-    def get(self, pk: int) -> Task:
-        return self._get_task(pk)
+    def get(self, pk: int, user_id: int) -> Task:
+        return self._get_task(pk, user_id)
 
-    def get_list(self) -> list[Task]:
-        return self.session.query(Task).all()
+    def get_list(self, user_id: int) -> list[Task]:
+        return self.session.query(Task).filter_by(user_id=user_id).all()
 
-    def create(self, data: TaskCreationSchema) -> Task:
-        task = Task(**data.dict())
+    def create(self, data: TaskCreationSchema, user_id: int) -> Task:
+        task = Task(**data.dict(), user_id=user_id)
         self.session.add(task)
         self.session.commit()
         return task
 
-    def update(self, pk: int, data: TaskUpdateSchema) -> Task:
-        task = self._get_task(pk)
+    def update(self, pk: int, data: TaskUpdateSchema, user_id: int) -> Task:
+        task = self._get_task(pk, user_id)
 
         for k, v in data:
             setattr(task, k, v)
@@ -48,7 +48,7 @@ class TaskService:
         self.session.commit()
         return task
 
-    def delete(self, pk: int) -> None:
-        task = self._get_task(pk)
+    def delete(self, pk: int, user_id: int) -> None:
+        task = self._get_task(pk, user_id)
         self.session.delete(task)
         self.session.commit()

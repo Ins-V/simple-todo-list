@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound, IntegrityError
 from jose import jwt, JWTError
@@ -11,6 +12,13 @@ from config.settings import settings
 from models.users import User
 from schemas.users import UserSchema, UserCreationSchema
 from schemas.tokens import TokenSchema
+
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/auth/login/')
+
+
+def get_current_user(token: str = Depends(oauth2_scheme)) -> UserSchema:
+    return AuthService.check_token(token)
 
 
 class AuthService:
@@ -81,7 +89,7 @@ class AuthService:
         user_id = payload.get('user_id')
 
         try:
-            user = User.query.get(user_id)
+            user = next(get_session()).query(User).get(user_id)
         except NoResultFound:
             raise exception from None
 
