@@ -8,12 +8,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 class Settings(BaseSettings):
     """Base settings project."""
-    server_host: str = '127.0.0.1'
-    server_port: int = 8000
-    database_url: str = f'sqlite:///{BASE_DIR}/db.sqlite3'
+    server_host: str
+    server_port: int
+    database_url: str
+    secret_key: str
+    crypt_algorithm: str
 
 
 settings = Settings(
-    _env_file='.env',
+    _env_file=BASE_DIR / '.env',
     _env_file_encoding='utf-8'
 )
