@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class BaseUserSchema(BaseModel):
-    name: str
+    username: str
     email: str
 
 
@@ -15,3 +15,6 @@ class UserCreationSchema(BaseUserSchema):
 class UserSchema(BaseUserSchema):
     id: int
     created: datetime
+
+    class Config:
+        orm_mode = True
