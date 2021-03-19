@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     database_url: str
     secret_key: str
     crypt_algorithm: str
+    token_expires: int
 
 
 settings = Settings(

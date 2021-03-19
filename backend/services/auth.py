@@ -104,7 +104,7 @@ class AuthService:
             {
                 'iat': now,
                 'nbf': now,
-                'exp': now + timedelta(seconds=300),
+                'exp': now + timedelta(seconds=settings.token_expires),
                 'sub': str(user_data.id),
                 'user_id': str(user_data.id)
             },
