@@ -8,10 +8,15 @@ class BaseTaskSchema(BaseModel):
     description: str
 
 
-class TaskSchema(BaseTaskSchema):
+class TaskCompletedSchema(BaseModel):
+    completed: bool
+
+
+class TaskSchema(TaskCompletedSchema, BaseTaskSchema):
     id: int
     created: datetime
     updated: datetime
+    completed: bool
 
     class Config:
         orm_mode = True
@@ -21,5 +26,5 @@ class TaskCreationSchema(BaseTaskSchema):
     pass
 
 
-class TaskUpdateSchema(BaseTaskSchema):
+class TaskUpdateSchema(TaskCompletedSchema, BaseTaskSchema):
     pass

@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import APIRouter, Depends, Response, status
 
 from schemas.tasks import TaskSchema, TaskCreationSchema, TaskUpdateSchema
@@ -11,8 +13,9 @@ router = APIRouter(prefix='/task', tags=['tasks'])
 
 @router.get('/list/', response_model=list[TaskSchema])
 def get_task_list(user: User = Depends(get_current_user),
+                  completed: Optional[bool] = None,
                   service: TaskService = Depends()):
-    return service.get_list(user.id)
+    return service.get_list(user.id, completed)
 
 
 @router.get('/{pk}/', response_model=TaskSchema)
