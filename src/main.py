@@ -4,7 +4,7 @@ from starlette.responses import RedirectResponse
 from api import router
 
 
-app = FastAPI()
+app = FastAPI(title='SimpleToDoList', version='0.0.1')
 app.include_router(router)
 
 

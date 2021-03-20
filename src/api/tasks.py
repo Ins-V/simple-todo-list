@@ -6,7 +6,7 @@ from models.users import User
 from services.auth import get_current_user
 
 
-router = APIRouter(prefix='/task')
+router = APIRouter(prefix='/task', tags=['tasks'])
 
 
 @router.get('/list/', response_model=list[TaskSchema])

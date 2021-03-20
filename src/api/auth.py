@@ -6,7 +6,7 @@ from schemas.tokens import TokenSchema
 from services.auth import AuthService
 
 
-router = APIRouter(prefix='/auth')
+router = APIRouter(prefix='/auth', tags=['auth'])
 
 
 @router.post('/login/', response_model=TokenSchema)
